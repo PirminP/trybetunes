@@ -1,14 +1,21 @@
 import React from 'react';
 import Header from '../components/Header';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import LoadingPage from './LoadingPage';
+import AlbumDeck from '../components/AlbumDeck';
 
 class Search extends React.Component {
   constructor() {
     super();
     this.enableButton = this.enableButton.bind(this);
+    this.searchBand = this.searchBand.bind(this);
 
     this.state = {
       BandNameSearch: '',
       IsButtonDisabled: true,
+      IsSearching: false,
+      ResultSearch: '',
+      LastBandSearch: '',
     };
   }
 
@@ -21,8 +28,26 @@ class Search extends React.Component {
     });
   }
 
+  async searchBand() {
+    const { BandNameSearch } = this.state;
+    const bandtoSearch = BandNameSearch;
+    this.setState({ BandNameSearch: '', IsSearching: true });
+    const bandResult = await searchAlbumsAPI(bandtoSearch);
+    this.setState({
+      ResultSearch: bandResult,
+      IsSearching: false,
+      LastBandSearch: bandtoSearch,
+    });
+  }
+
   render() {
-    const { BandNameSearch, IsButtonDisabled } = this.state;
+    const {
+      BandNameSearch,
+      IsButtonDisabled,
+      ResultSearch,
+      IsSearching,
+      LastBandSearch,
+    } = this.state;
     return (
       <>
         <Header />
@@ -37,10 +62,13 @@ class Search extends React.Component {
             type="button"
             data-testid="search-artist-button"
             disabled={ IsButtonDisabled }
+            onClick={ this.searchBand }
           >
             Pesquisar
           </button>
         </div>
+        { IsSearching ? <LoadingPage />
+          : <AlbumDeck albumArray={ ResultSearch } artistName={ LastBandSearch } />}
       </>
     );
   }

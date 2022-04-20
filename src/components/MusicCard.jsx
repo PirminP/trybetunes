@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import LoadingPage from '../pages/LoadingPage';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, removeSong } from '../services/favoriteSongsAPI';
 
 class MusicCard extends React.Component {
   constructor(props) {
@@ -26,6 +26,8 @@ class MusicCard extends React.Component {
     });
     if (value) {
       this.trackToFavorites(entireObject);
+    } else {
+      this.removeTrackFromFavorites(entireObject);
     }
   }
 
@@ -41,6 +43,12 @@ class MusicCard extends React.Component {
   async trackToFavorites(SongObject) {
     this.setState({ IsSendingTrack: true });
     await addSong(SongObject);
+    this.setState({ IsSendingTrack: false });
+  }
+
+  async removeTrackFromFavorites(SongObject) {
+    this.setState({ IsSendingTrack: true });
+    await removeSong(SongObject);
     this.setState({ IsSendingTrack: false });
   }
 

@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   constructor() {
@@ -14,12 +15,15 @@ class Album extends React.Component {
       AlbumName: '',
       ArtistName: '',
       IsSearchReady: false,
+      IsRecapturingFav: true,
+      TheFavTracks: '',
     };
   }
 
   async componentDidMount() {
     await this.listTracks();
     this.separetedArray();
+    this.recoveredFav();
   }
 
   async listTracks() {
@@ -30,10 +34,10 @@ class Album extends React.Component {
 
   separetedArray() {
     const { MusicResultSearch } = this.state;
-    console.log(MusicResultSearch);
+    // console.log(MusicResultSearch);
     const AlbumInfo = MusicResultSearch
       .filter(({ wrapperType }) => wrapperType !== 'track');
-    console.log(AlbumInfo);
+    // console.log(AlbumInfo);
     this.setState({
       AlbumTracks: MusicResultSearch
         .filter(({ kind }) => kind === 'song'),
@@ -43,13 +47,30 @@ class Album extends React.Component {
     });
   }
 
+  async recoveredFav() {
+    this.setState({ IsRecapturingFav: true });
+    const FavTrackArray = await getFavoriteSongs();
+    // console.log(FavTrackArray);
+    this.setState({
+      IsRecapturingFav: false,
+      TheFavTracks: FavTrackArray,
+    });
+  }
+
   render() {
-    const { IsSearchReady, AlbumTracks, AlbumName, ArtistName } = this.state;
+    const {
+      IsSearchReady,
+      AlbumTracks,
+      AlbumName,
+      ArtistName,
+      IsRecapturingFav,
+      TheFavTracks } = this.state;
+
     return (
       <>
         <Header />
         <div data-testid="page-album">
-          { IsSearchReady
+          { IsSearchReady && !IsRecapturingFav
           && (
             <div>
               <h1 data-testid="artist-name">{ ArtistName }</h1>
@@ -61,6 +82,7 @@ class Album extends React.Component {
                   TrackName={ trackObject.trackName }
                   TrackUrl={ trackObject.previewUrl }
                   TrackId={ trackObject.trackId }
+                  TheFav={ TheFavTracks }
                 />
                 )) }
             </div>

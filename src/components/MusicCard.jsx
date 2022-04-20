@@ -4,14 +4,18 @@ import LoadingPage from '../pages/LoadingPage';
 import { addSong } from '../services/favoriteSongsAPI';
 
 class MusicCard extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.trackToFavorites = this.trackToFavorites.bind(this);
     this.handleCheckbox = this.handleCheckbox.bind(this);
     this.state = {
       IsSendingTrack: false,
       CheckboxChecked: false,
     };
+  }
+
+  componentDidMount() {
+    this.IsTrackFav();
   }
 
   handleCheckbox({ target }) {
@@ -25,6 +29,15 @@ class MusicCard extends React.Component {
     }
   }
 
+  IsTrackFav() {
+    const { TheFav, TrackId } = this.props;
+    const isFav = TheFav.some((FavTrack) => FavTrack.trackId === TrackId);
+    // console.log(isFav);
+    this.setState({
+      CheckboxChecked: isFav,
+    });
+  }
+
   async trackToFavorites(SongObject) {
     this.setState({ IsSendingTrack: true });
     await addSong(SongObject);
@@ -34,6 +47,7 @@ class MusicCard extends React.Component {
   render() {
     const { TrackName, TrackUrl, TrackId } = this.props;
     const { IsSendingTrack, CheckboxChecked } = this.state;
+
     return (
       IsSendingTrack ? <LoadingPage /> : (
         <section>
@@ -49,6 +63,7 @@ class MusicCard extends React.Component {
             checked={ CheckboxChecked }
             onChange={ this.handleCheckbox }
           />
+          Favorite
         </section>)
     );
   }
@@ -59,6 +74,7 @@ MusicCard.propTypes = {
   TrackUrl: propTypes.string.isRequired,
   TrackId: propTypes.number.isRequired,
   entireObject: propTypes.shape().isRequired,
+  TheFav: propTypes.arrayOf(Object).isRequired,
 };
 
 export default MusicCard;

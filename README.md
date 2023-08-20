@@ -1,10 +1,18 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# Project Trybetunes
+
+#### This website is able to play music from a wide variety of bands and artists, creating a list of favorite songs and editing the logged-in user's profile.
+
+* Designed by using React, BrowserRouter & CSS3
+
+### Instructions
+* To run and start the application locally, clone the project and use the following commands:
+
+  ```
+  npm install // install dependencies
+  npm start // start application
+  ```
+
+## Demonstration
+Access: [Click here]()
+
+![To access]()

@@ -2,6 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import LoadingPage from '../pages/LoadingPage';
 import { addSong, removeSong } from '../services/favoriteSongsAPI';
+import styles from './MusicCard.module.css';
 
 class MusicCard extends React.Component {
   constructor(props) {
@@ -58,20 +59,22 @@ class MusicCard extends React.Component {
 
     return (
       IsSendingTrack ? <LoadingPage /> : (
-        <section>
+        <section className={ styles.container }>
           <p>{ TrackName }</p>
           <audio data-testid="audio-component" src={ TrackUrl } controls>
             <track kind="captions" />
             O seu navegador não suporta o elemento
             <code>audio</code>
           </audio>
-          <input
-            type="checkbox"
-            data-testid={ `checkbox-music-${TrackId}` }
-            checked={ CheckboxChecked }
-            onChange={ this.handleCheckbox }
-          />
-          Favorite
+          <label htmlFor={ `checkbox-music-${TrackId}` }>
+            <input
+              type="checkbox"
+              data-testid={ `checkbox-music-${TrackId}` }
+              checked={ CheckboxChecked }
+              onChange={ this.handleCheckbox }
+            />
+            Favorite
+          </label>
         </section>)
     );
   }

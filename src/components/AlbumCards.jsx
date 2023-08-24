@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
+import styles from './AlbumCards.module.css';
 
 class AlbumCards extends React.Component {
   render() {
     const { Id, Image, AlbumName } = this.props;
     return (
-      <section>
+      <section className={ styles.container }>
         <div>
           <img src={ Image } alt={ AlbumName } />
           <p>{ AlbumName }</p>

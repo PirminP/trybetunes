@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { getUser } from '../services/userAPI';
 import LoadingPage from '../pages/LoadingPage';
+import styles from './Header.module.css';
 
 class Header extends React.Component {
   constructor() {
@@ -27,17 +28,21 @@ class Header extends React.Component {
   render() {
     const { getName, IsLoading } = this.state;
     return (
-      <header data-testid="header-component">
+      <header data-testid="header-component" className={ styles.container }>
         <nav>
-          <Link to="/search" data-testid="link-to-search">Search</Link>
-          <Link to="/favorites" data-testid="link-to-favorites">Favorites</Link>
-          <Link to="/profile" data-testid="link-to-profile">Profile</Link>
+          <ul>
+            <li><Link to="/search" data-testid="link-to-search">Search</Link></li>
+            <li><Link to="/favorites" data-testid="link-to-favorites">Favorite</Link></li>
+            <li><Link to="/profile" data-testid="link-to-profile">Profile</Link></li>
+          </ul>
         </nav>
-        { IsLoading ? <LoadingPage /> : (
-          <p data-testid="header-user-name">
-            Hoi,
-            { getName }
-          </p>)}
+        <div>
+          { IsLoading ? <LoadingPage /> : (
+            <p data-testid="header-user-name">
+              Hoi,
+              { getName }
+            </p>)}
+        </div>
       </header>
     );
   }

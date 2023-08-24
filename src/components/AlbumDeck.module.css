@@ -1,0 +1,17 @@
+.container p {
+  color: #023031;
+  font-family: Epilogue , sans-serif;
+  font-size: 28px;
+  font-weight: 300;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.container div {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10px;
+}

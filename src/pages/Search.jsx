@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 import LoadingPage from './LoadingPage';
 import AlbumDeck from '../components/AlbumDeck';
+import styles from './Search.module.css';
 
 class Search extends React.Component {
   constructor() {
@@ -52,20 +53,25 @@ class Search extends React.Component {
       <>
         <Header />
         <div data-testid="page-search">
-          <input
-            type="text"
-            value={ BandNameSearch }
-            data-testid="search-artist-input"
-            onChange={ this.enableButton }
-          />
-          <button
-            type="button"
-            data-testid="search-artist-button"
-            disabled={ IsButtonDisabled }
-            onClick={ this.searchBand }
-          >
-            Pesquisar
-          </button>
+          <main className={ styles.container }>
+            <form>
+              <input
+                type="text"
+                value={ BandNameSearch }
+                placeholder="Please insert an artist"
+                data-testid="search-artist-input"
+                onChange={ this.enableButton }
+              />
+              <button
+                type="button"
+                data-testid="search-artist-button"
+                disabled={ IsButtonDisabled }
+                onClick={ this.searchBand }
+              >
+                Pesquisar
+              </button>
+            </form>
+          </main>
         </div>
         { IsSearching ? <LoadingPage />
           : <AlbumDeck albumArray={ ResultSearch } artistName={ LastBandSearch } />}

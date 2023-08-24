@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
 import { getFavoriteSongs } from '../services/favoriteSongsAPI';
+import styles from './Album.module.css';
 
 class Album extends React.Component {
   constructor() {
@@ -69,22 +70,26 @@ class Album extends React.Component {
     return (
       <>
         <Header />
-        <div data-testid="page-album">
+        <div data-testid="page-album" className={ styles.container }>
           { IsSearchReady && !IsRecapturingFav
           && (
             <div>
-              <h1 data-testid="artist-name">{ ArtistName }</h1>
-              <h2 data-testid="album-name">{ AlbumName }</h2>
-              {AlbumTracks
-                .map((trackObject) => (<MusicCard
-                  key={ trackObject.trackId }
-                  entireObject={ trackObject }
-                  TrackName={ trackObject.trackName }
-                  TrackUrl={ trackObject.previewUrl }
-                  TrackId={ trackObject.trackId }
-                  TheFav={ TheFavTracks }
-                />
-                )) }
+              <aside>
+                <h1 data-testid="artist-name">{ ArtistName }</h1>
+                <h2 data-testid="album-name">{ AlbumName }</h2>
+              </aside>
+              <section>
+                {AlbumTracks
+                  .map((trackObject) => (<MusicCard
+                    key={ trackObject.trackId }
+                    entireObject={ trackObject }
+                    TrackName={ trackObject.trackName }
+                    TrackUrl={ trackObject.previewUrl }
+                    TrackId={ trackObject.trackId }
+                    TheFav={ TheFavTracks }
+                  />
+                  )) }
+              </section>
             </div>
           )}
         </div>
